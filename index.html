@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="synthwave">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Player One — Portfolio</title>
+  <meta name="description" content="B.Tech student portfolio" />
+  <meta name="theme-color" content="#07051a" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👾</text></svg>" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;600&family=Outfit:wght@300;400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============ BOOT / PRESS START SCREEN ============ -->
+  <div class="boot" id="boot" aria-hidden="true">
+    <div class="boot-inner">
+      <div class="boot-logo">PLAYER<span>ONE</span></div>
+      <pre class="boot-log" id="bootLog"></pre>
+      <div class="boot-bar"><i id="bootBar"></i></div>
+      <div class="boot-start" id="bootStart">PRESS ANY KEY TO START</div>
+      <div class="boot-hint">tap / click anywhere to skip</div>
+    </div>
+  </div>
+
+  <!-- ============ BACKGROUND FX ============ -->
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="crt" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- ============ TOP HUD ============ -->
+  <header class="hud" id="hud">
+    <a class="hud-logo" href="#profile" aria-label="Back to top">
+      <span class="logo-badge">P1</span>
+      <span class="logo-text" id="hudHandle">player.one</span>
+    </a>
+    <nav class="hud-nav" id="hudNav" aria-label="Main"></nav>
+    <div class="hud-tools">
+      <div class="visitor-xp" title="Explore the site to earn XP!">
+        <span class="vx-lv">LV <b id="visLv">1</b></span>
+        <div class="vx-bar"><i id="visBar"></i></div>
+        <span class="vx-num"><b id="visXp">0</b> XP</span>
+      </div>
+      <button class="tool-btn" id="btnSound" aria-label="Toggle sound" title="Sound">🔇</button>
+      <button class="tool-btn" id="btnCrt" aria-label="Toggle CRT effect" title="CRT mode">📺</button>
+      <button class="tool-btn kbd" id="btnPalette" aria-label="Open command menu" title="Command menu (Ctrl + K)">⌘K</button>
+    </div>
+  </header>
+
+  <!-- Mobile bottom dock -->
+  <nav class="dock" id="dock" aria-label="Quick"></nav>
+
+  <main id="main">
+
+    <!-- ============ ZONE 01 · PROFILE / HERO ============ -->
+    <section class="hero" id="profile" data-zone="profile">
+      <div class="hero-sun" aria-hidden="true"></div>
+      <div class="hero-grid" aria-hidden="true"></div>
+
+      <div class="hero-wrap">
+        <div class="hero-left">
+          <div class="ready-tag"><span class="blink-dot"></span> PLAYER 1 READY</div>
+          <p class="hero-hi">Hi, I'm</p>
+          <h1 class="glitch" id="heroName" data-text="Player One">Player One</h1>
+          <div class="hero-class">
+            <span class="hc-label">CLASS:</span>
+            <span class="typed" id="typed"></span><span class="caret">▌</span>
+          </div>
+          <p class="hero-intro" id="heroIntro"></p>
+          <div class="hero-cta">
+            <a href="#quests" class="btn btn-primary" data-sfx>▶ START QUEST</a>
+            <a href="#" class="btn btn-ghost" id="resumeBtn" download data-sfx>💾 Download Save File</a>
+          </div>
+          <div class="socials" id="heroSocials"></div>
+          <div class="lore" id="heroLore"></div>
+        </div>
+
+        <div class="hero-right">
+          <article class="char-card" id="charCard">
+            <div class="cc-shine"></div>
+            <div class="cc-top">
+              <span class="cc-tag">CHARACTER</span>
+              <span class="cc-lv">LV <b id="ccLv">1</b></span>
+            </div>
+            <div class="cc-avatar-wrap">
+              <div class="cc-ring"></div>
+              <img class="cc-avatar" id="ccAvatar" alt="Avatar" />
+            </div>
+            <h2 class="cc-name" id="ccName">Player</h2>
+            <p class="cc-sub" id="ccBranch"></p>
+            <p class="cc-sub dim" id="ccCollege"></p>
+
+            <div class="cc-xp">
+              <div class="cc-xp-row"><span>SEMESTER XP</span><span id="ccSem">1 / 8</span></div>
+              <div class="xp-bar"><i id="ccXpBar"></i></div>
+            </div>
+
+            <div class="cc-meta">
+              <div><small>CGPA</small><b id="ccCgpa">-</b></div>
+              <div><small>BATCH</small><b id="ccBatch">-</b></div>
+              <div><small>BASE</small><b id="ccLoc">-</b></div>
+            </div>
+
+            <ul class="cc-attrs" id="ccAttrs"></ul>
+
+            <div class="cc-status"><span class="status-dot" id="ccDot"></span><span id="ccStatus"></span></div>
+          </article>
+        </div>
+      </div>
+
+      <a href="#stats" class="scroll-hint" aria-label="Scroll down"><span></span>SCROLL</a>
+    </section>
+
+    <!-- Arcade ticker -->
+    <div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker"></div></div>
+
+    <!-- ============ PLAYER STATS ============ -->
+    <section class="zone stats-zone" id="stats" data-zone="stats">
+      <div class="container">
+        <div class="stats-grid" id="statsGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============ SKILL TREE ============ -->
+    <section class="zone" id="skills" data-zone="skills">
+      <div class="container">
+        <div class="zone-head" data-head="skills"></div>
+        <div class="skill-tabs" id="skillTabs" role="tablist"></div>
+        <div class="skill-legend">
+          <span><i class="lg lg-unlocked"></i> Unlocked</span>
+          <span><i class="lg lg-learning"></i> Unlocking…</span>
+          <span class="dim">Hover a skill to inspect</span>
+        </div>
+        <div class="skill-grid" id="skillGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============ LOADOUT / INVENTORY ============ -->
+    <section class="zone" id="loadout" data-zone="loadout">
+      <div class="container">
+        <div class="zone-head" data-head="loadout"></div>
+        <div class="loadout">
+          <div class="panel inv-panel">
+            <div class="panel-title">🎒 INVENTORY <span class="dim" id="invCount"></span></div>
+            <div class="inv-grid" id="invGrid"></div>
+            <div class="inv-detail" id="invDetail">Select an item to inspect it.</div>
+          </div>
+          <div class="panel learn-panel">
+            <div class="panel-title">⏳ CURRENTLY LOADING…</div>
+            <div id="learnList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ QUESTS / PROJECTS ============ -->
+    <section class="zone" id="quests" data-zone="quests">
+      <div class="container">
+        <div class="zone-head" data-head="quests"></div>
+        <div class="quest-filters" id="questFilters"></div>
+        <div class="quest-grid" id="questGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============ JOURNEY / WORLD MAP ============ -->
+    <section class="zone" id="journey" data-zone="journey">
+      <div class="container">
+        <div class="zone-head" data-head="journey"></div>
+      </div>
+      <div class="map-scroll" id="mapScroll">
+        <div class="map-track" id="mapTrack"></div>
+      </div>
+      <div class="container"><p class="map-hint dim">← drag / scroll to explore the map →</p></div>
+    </section>
+
+    <!-- ============ ACHIEVEMENTS ============ -->
+    <section class="zone" id="achievements" data-zone="achievements">
+      <div class="container">
+        <div class="zone-head" data-head="achievements"></div>
+        <div class="trophy-summary" id="trophySummary"></div>
+        <div class="trophy-grid" id="trophyGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============ GUILDS ============ -->
+    <section class="zone" id="guilds" data-zone="guilds">
+      <div class="container">
+        <div class="zone-head" data-head="guilds"></div>
+        <div class="guild-grid" id="guildGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="zone" id="contact" data-zone="contact">
+      <div class="container">
+        <div class="zone-head" data-head="contact"></div>
+        <div class="contact-wrap">
+          <div class="panel contact-info">
+            <h3 class="ci-title" id="ciTitle">Ready Player Two?</h3>
+            <p id="ciMsg" class="dim"></p>
+            <button class="email-chip" id="emailChip" data-sfx>
+              <span class="ec-label">EMAIL</span>
+              <span class="ec-val" id="ciEmail"></span>
+              <span class="ec-copy">⧉ copy</span>
+            </button>
+            <div class="ci-rows" id="ciRows"></div>
+            <div class="socials big" id="ciSocials"></div>
+          </div>
+
+          <form class="terminal" id="contactForm" novalidate>
+            <div class="term-bar"><i></i><i></i><i></i><span>party_invite.sh</span></div>
+            <div class="term-body">
+              <p class="term-line dim">// fill the fields and hit ENTER to send a party invite</p>
+              <label class="term-field"><span>$ name:</span><input name="name" required autocomplete="name" placeholder="Player Two" /></label>
+              <label class="term-field"><span>$ email:</span><input name="email" type="email" required autocomplete="email" placeholder="you@domain.com" /></label>
+              <label class="term-field"><span>$ quest:</span>
+                <select name="subject">
+                  <option>Internship opportunity</option>
+                  <option>Hackathon team-up</option>
+                  <option>Project collaboration</option>
+                  <option>Just saying hi 👋</option>
+                </select>
+              </label>
+              <label class="term-field col"><span>$ message:</span><textarea name="message" rows="4" required placeholder="Type your message…"></textarea></label>
+              <div class="term-actions">
+                <button class="btn btn-primary" type="submit" data-sfx>⏎ SEND INVITE</button>
+                <span class="term-out" id="termOut"></span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="credits">THANKS FOR PLAYING</div>
+      <p class="footer-zones">Zones explored: <b id="zonesFound">0</b> / <b id="zonesTotal">0</b> <span id="zonesMsg"></span></p>
+      <a href="#profile" class="btn btn-ghost respawn" data-sfx>↑ Respawn at top</a>
+      <p class="footer-note dim"><span id="footNote"></span><br />© <span id="footYear"></span> <span id="footName"></span> · Psst… try the Konami code ↑↑↓↓←→←→BA</p>
+    </div>
+  </footer>
+
+  <!-- ============ QUEST MODAL ============ -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-box">
+      <button class="modal-close" data-close aria-label="Close">✕</button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- ============ COMMAND PALETTE ============ -->
+  <div class="palette" id="palette" hidden>
+    <div class="modal-backdrop" data-pclose></div>
+    <div class="palette-box">
+      <div class="palette-input"><span>›</span><input id="paletteInput" placeholder="Type a command or zone…" autocomplete="off" /></div>
+      <ul class="palette-list" id="paletteList"></ul>
+      <div class="palette-foot"><span>↑↓ navigate</span><span>⏎ select</span><span>esc close</span></div>
+    </div>
+  </div>
+
+  <!-- Toast notifications -->
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- Scripts: data first, then engine -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
